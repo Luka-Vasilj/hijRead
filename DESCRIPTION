@@ -2,7 +2,9 @@ Package: hijread
 Title: Convert from Gregorian to Hijri
 Version: 0.0.0.9000
 Authors@R: 
-    person("Luka", "Vasilj", , "vasilj.luka@gmail.com", role = c("aut", "cre"))
+    c(person("Luka", "Vasilj", , "vasilj.luka@gmail.com", role = c("aut", "cre")),
+    person("Abhipsha", "Mahapatro", , "a.mahapatro@mpp.hertie-school.org", role = c("aut")),
+    person("Dijana", "Majstorovic", , "d.majstorovic@mpp.hertie-school.org", role = c("aut")))
 Description: The package takes Gregorian calendar input and converts it into Islamic dates according to the Hijri calendar.
 License: MIT + file LICENSE
 Encoding: UTF-8
