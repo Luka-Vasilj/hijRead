@@ -34,13 +34,10 @@ library(hijread)
 
 x <- "12-12-2021"
 hijdate(x)
-#> No encoding supplied: defaulting to UTF-8.
 #> [1] "07-05-1443"
 hijday(x)
-#> No encoding supplied: defaulting to UTF-8.
 #> [1] "Al Ahad"
 hijmonth(x)
-#> No encoding supplied: defaulting to UTF-8.
 #> [1] "Jumadá al-ulá"
 ```
 
@@ -53,14 +50,6 @@ containing the corresponding Hijri dates.
 
 ``` r
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(stringi)
 
 #creating randomized dates
@@ -82,26 +71,6 @@ ds$dated <- as.character(paste(ds$a, ds$b, ds$c, sep = "-"))
 ds <- ds %>%
   rowwise() %>%
   mutate(hijri = hijdate(dated))
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
-#> No encoding supplied: defaulting to UTF-8.
 
 ds %>%
   select(dated, hijri) %>%
@@ -110,16 +79,16 @@ ds %>%
 #> # Rowwise: 
 #>    dated      hijri     
 #>    <chr>      <chr>     
-#>  1 03-01-1819 06-03-1234
-#>  2 18-08-1978 14-09-1398
-#>  3 07-12-0879 18-04-266 
-#>  4 27-09-0633 17-07-12  
-#>  5 08-12-0811 18-03-196 
-#>  6 28-04-1067 10-06-459 
-#>  7 12-03-1740 13-12-1152
-#>  8 19-03-1397 18-06-799 
-#>  9 12-09-0770 16-09-153 
-#> 10 08-04-1345 04-12-745
+#>  1 21-07-1463 04-11-867 
+#>  2 20-02-1362 24-04-763 
+#>  3 02-09-1894 01-03-1312
+#>  4 07-08-1346 17-04-747 
+#>  5 27-05-1859 24-10-1275
+#>  6 08-12-1762 21-05-1176
+#>  7 08-11-0703 23-10-84  
+#>  8 29-06-0885 12-01-272 
+#>  9 16-01-0998 14-01-388 
+#> 10 08-04-1054 26-12-445
 ```
 
 The potential use cases extend to more easily tracking and visualizing

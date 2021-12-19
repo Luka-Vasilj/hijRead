@@ -33,7 +33,7 @@ devtools::install_github("Luka-Vasilj/hijread")
 
 Below, we show the code required to convert a Gregorian date to a Hijri date, as well as obtaining the names of the day of the week and Hijri month in Arabic. Note that dates passed to the functions must be strings in the dd-mm-yyyy format:
 
-```{r}
+```{r, message = F}
 library(hijread)
 
 x <- "12-12-2021"
@@ -44,7 +44,7 @@ hijmonth(x)
 
 The above functions can also be passed to the dplyr `mutate()` function in order to convert an entire set of dates, however, this must be mediated by the `rowwise()` function. Below, we create a dataset with randomized dates from the beginning of the Islamic calendar until the end of 2021. Then, we use the `mutate()` function to create a new column containing the corresponding Hijri dates.
 
-```{r}
+```{r, message = F}
 library(dplyr)
 library(stringi)
 
