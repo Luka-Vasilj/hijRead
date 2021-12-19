@@ -1,0 +1,102 @@
+---
+title: "Convert Gregorian Calendar Dates to Islamice Dates (Hijri Calendar)"
+output: html_document
+vignette: >
+  %\VignetteIndexEntry{Convert Gregorian Calendar Dates to Islamice Dates (Hijri Calendar)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Hijread is an R package that makes it easier to convert standard Gregorian calendar dates to Islamic dates following the Hijri calendar. Below is a small instruction manual for how to use hijread and its functions. This package uses  an API (link in Further Resources) to carry out the date conversions. 
+
+The package is developed by Luka Vasilj, Abhipsha Mahapatro and Dijana Majstorovic for their course on Data Science at the Hertie School, taught by Prof. Dr. Simon Munzert. The package is currently maintained by Luka Vasilj. 
+
+
+### 1. Setting up
+
+Users can download the package from the github repo of Luka Vasilj, one of the co-authors of the package, like 
+```{r setup, message = F}
+library(devtools)
+install_github("Luka-Vasilj/hijread")
+```
+
+Once downloaded, when working with hijri again, the package can be installed in the standard way that packages are loaded in R, for example: 
+```{r}
+#Setting up the package 
+#install.packages("hijread")
+library(hijread)
+```
+
+### 2. Hijri Date, Day and Month 
+
+This R package contains three functions, which return the corresponding output: 
+a. hijdate - returns the date as per the Hijri calendar 
+b. hijday - returns the day of the week as per the Hijri calendar 
+c. hijmonth - returns the name of the month as per the Hijri calendar 
+
+The input of the Greogrian calendar dates must be in the dd-mm-yy format. 
+
+```{r, message = F}
+x <- "12-12-2021"
+hijdate(x)
+hijday(x)
+hijmonth(x)
+```
+
+When working with dates, often we need information that goes beyond a simple conversion of date. Inspired by the Lubridate package, which makes working with dates and times easier, this package returns outputs on day of the week and name of the month as well. 
+
+### 3. Further uses 
+
+Here is an example of how these functions can be used, beside direct conversion of dates. The above functions can also be passed to the dplyr `mutate()` function in order to convert an entire set of dates, however, this must be mediated by the `rowwise()` function. Below, we create a dataset with randomized dates from the beginning of the Islamic calendar until the end of 2021. 
+Then, we use the `mutate()` function to create a new column containing the corresponding Hijri dates. 
+
+```{r, message = F}
+library(dplyr)
+library(stringi)
+
+#creating randomized dates
+a <- as.character(sample(1:30, 20, replace = T))
+b <- as.character(sample(1:12, 20, replace = T))
+c <- as.character(sample(623:2021, 20, replace = T))
+
+#making date format uniform
+ds <- as.data.frame(cbind(a, b, c)) %>%
+  mutate(a = ifelse(stri_length(a) < 2, paste0("0", a), a),
+         b = ifelse(stri_length(b) < 2, paste0("0", b), b),
+         c = ifelse(stri_length(c) < 2, paste0("000", c), 
+                    ifelse(stri_length(c) < 3, paste0("00", c),
+                           ifelse(stri_length(c) < 4, paste0("0", c), c))))
+ds$dated <- as.character(paste(ds$a, ds$b, ds$c, sep = "-"))
+
+#attempting to use function on dataset
+ds <- ds %>%
+  rowwise() %>%
+  mutate(hijri = hijdate(dated))
+
+#displaying the first ten Gregorian and converted dates
+ds %>%
+  select(dated, hijri) %>%
+  head(10)
+```
+
+### 4. Limitations 
+
+The functions, which make use of an API from a website that converts dates, returns an error sometimes. It was noticed that the API converts even incorrect dates, and given an output in the Hijri calendar. For example, if we were to try to convert the fictional June 31st: 
+
+```{r, message = F}
+wrongdate <- "31-06-2021"
+hijdate(wrongdate)
+```
+
+This seems to be a problem with the API and is being looked into by the API developers In the meantime, it is important for the users of the package to note that while the function converts Gregorian calendar dates, it will also convert other character strings if the input is in dd-mm-yy format. However, it is unable to convert strings that exceed two digits for both months and days.
+
+### 5. Further Resources 
+
+API link: https://aladhan.com/islamic-calendar-api

@@ -14,5 +14,10 @@ Imports:
     httr,
     jsonlite
 Suggests: 
+    rmarkdown,
+    knitr,
+    dplyr,
+    stringi
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
